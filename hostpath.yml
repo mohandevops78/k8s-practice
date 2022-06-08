@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath
+  namespace: training
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu:18.04
+    command:
+        - "sleep"
+        - "40000"
+    volumeMounts:
+    - mountPath: /test-pd
+      name: test-volume
+  volumes:
+  - name: test-volume
+    hostPath:
+      path: /data
+      type: Directory

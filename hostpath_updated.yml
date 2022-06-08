@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"name":"hostpath","namespace":"training"},"spec":{"containers":[{"command":["sleep","40000"],"image":"ubuntu:18.04","name":"ubuntu","volumeMounts":[{"mountPath":"/test-pd","name":"test-volume"}]}],"volumes":[{"hostPath":{"path":"/data","type":"Directory"},"name":"test-volume"}]}}
+  creationTimestamp: "2022-06-07T02:27:59Z"
+  name: hostpath
+  namespace: training
+  resourceVersion: "294024"
+  uid: 13fabdd4-7a54-45a6-b5a1-fa0aaaf78611
+spec:
+  containers:
+  - command:
+    - sleep
+    - "40000"
+    image: ubuntu:18.04
+    imagePullPolicy: IfNotPresent
+    name: ubuntu
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /test-pd
+      name: test-volume
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-h44tk
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - hostPath:
+      path: /data
+      type: Directory
+    name: test-volume
+  - name: kube-api-access-h44tk
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2022-06-07T02:27:59Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2022-06-07T02:28:00Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2022-06-07T02:28:00Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2022-06-07T02:27:59Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://1b03dbbe2ebf6b3e74f030fae55c8ceaac192ec49f27f61c6fb1d67968a877d4
+    image: ubuntu:18.04
+    imageID: docker-pullable://ubuntu@sha256:d21b6ba9e19feffa328cb3864316e6918e30acfd55e285b5d3df1d8ca3c7fd3f
+    lastState: {}
+    name: ubuntu
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2022-06-07T02:28:00Z"
+  hostIP: 192.168.49.2
+  phase: Running
+  podIP: 172.17.0.4
+  podIPs:
+  - ip: 172.17.0.4
+  qosClass: BestEffort
+  startTime: "2022-06-07T02:27:59Z"

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+  namespace: training
+spec:
+  containers:
+  - name: test-container
+    image: k8s.gcr.io/test-webserver
+    volumeMounts:
+      - mountPath: /cache
+        name: empty-dir
+  
+  - name: ubuntu
+    image: ubuntu:18.04
+    command:
+        - "sleep"
+        - "40000"
+    volumeMounts:
+      - mountPath: /cache
+        name: empty-dir
+    imagePullPolicy: IfNotPresent
+  
+  volumes:
+    - name: empty-dir
+      emptyDir: {}
+
